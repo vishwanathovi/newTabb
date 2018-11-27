@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Todo list</title>
+	<link rel="stylesheet" href="assets/stylesheet/main.css">
+
+	<!-- font awesome link -->
+	
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+</head>
+<body>
+	<h1>to<span class="h1-inverse">do</span>s</h1>
+	<div class="full-board">
+		<div class="header-section">
+			<i id="check-all" class="fas fa-chevron-down"></i>
+			<form id="input-form" action="" onsubmit="return false;">
+				<input type="text" id="item-input" placeholder="What needs to be done?">
+				<button id="item-submit">Add</button>
+			</form>
+		</div>
+		<div class="item-list">
+			
+		</div>
+		<div class="bottom-section">
+			<div id="left-count">0 completed</div>
+			<div class="filter-btns">
+				<button id="all-btn" class="current-btn">All</button>
+				<button id="active-btn">Active</button>
+				<button id="completed-btn">Completed</button>
+			</div>
+			<div id="clear-completed">Clear completed</div>
+		</div>
+	</div>
+	<div class="credits-footer">
+		<div class="credit">Inspired by <a href="http://todomvc.com/">todoMVC</a></div>
+		<div class="credit">Created by <a href="https://github.com/vishwanathovi">Vishwa</a></div>
+		<div class="credit">Part of <a href="https://altcampus.io/">AltCampus</a> program</div>
+	</div>
+</body>
+	<script type="text/javascript" src="assets/js/main.js"></script>
+</html>
