@@ -10,6 +10,9 @@
 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
+	<!-- Lobster font -->
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
 
   <title>newTabb</title>
 </head>
@@ -20,17 +23,13 @@
 			<p id="date"> </p>
 		  </div>
 
-		 <!-- quotes section -->
-		 <div class="quote">
-				<h1 id="quotes"></h1>
-				<p id="author"></p>
-			  </div>
+
 
 		  <!-- ToDo List -->
 	<div class="full-board">
 		<div class="header-section">
 			<i id="check-all" class="fas fa-chevron-down"></i>
-			<form id="input-form" action="" onsubmit="return false;">
+			<form id="input-form" action="" onsubmit="return false;" onfocus>
 				<input type="text" id="item-input" placeholder="What needs to be done?">
 				<button id="item-submit">Add</button>
 			</form>
@@ -48,6 +47,14 @@
 			<div id="clear-completed">Clear completed</div>
 		</div>
 	</div>
+
+			 <!-- quotes section -->
+	<div class="quote">
+		<h1 id="quotes"></h1>
+		<p id="author"></p>
+	</div>
+
+
 </body>
 <script src="js/quotes.js"></script>
 <script src="js/main.js"></script>
