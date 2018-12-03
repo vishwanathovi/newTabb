@@ -4,9 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Chrome</title>
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- Font awesome -->
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+
+  <title>newTabb</title>
 </head>
 <body>
-  <h1>Hello World!</h1>
+	<div class="full-board">
+		<div class="header-section">
+			<i id="check-all" class="fas fa-chevron-down"></i>
+			<form id="input-form" action="" onsubmit="return false;">
+				<input type="text" id="item-input" placeholder="What needs to be done?">
+				<button id="item-submit">Add</button>
+			</form>
+		</div>
+		<div class="item-list">
+			
+		</div>
+		<div class="bottom-section">
+			<div id="left-count">0 completed</div>
+			<div class="filter-btns">
+				<button id="all-btn" class="current-btn">All</button>
+				<button id="active-btn">Active</button>
+				<button id="completed-btn">Completed</button>
+			</div>
+			<div id="clear-completed">Clear completed</div>
+		</div>
+	</div>
 </body>
+<script src="js/main.js"></script>
 </html>
