@@ -1,5 +1,4 @@
-var quotes;
-export default quotes =
+var quotes =
 [
     {
       "quote": "Life isn’t about getting and having, it’s about giving and being.",
@@ -409,4 +408,12 @@ export default quotes =
       "quote": "If you can dream it, you can achieve it.",
       "author": "Zig Ziglar"
     }
-  ]
+  ];
+
+// function to generate random quote
+function quoteRandom(){
+  return quotes[Math.floor(Math.random()*quotes.length)]; 
+}
+
+
+

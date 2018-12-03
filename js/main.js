@@ -212,3 +212,58 @@ function getTimeKey(){
 
 
 
+// //////////////////////////////////////////////////////////////////
+//                      date and random quote                      //
+// //////////////////////////////////////////////////////////////////
+
+let quote = document.getElementById('quotes');
+let author = document.getElementById('author');
+let time = document.getElementById('time');
+let date = document.getElementById('date');
+display_quotes();
+dateTime();
+
+// random quotes
+// function to display random quote
+function display_quotes() {
+
+		let randomQuote = quoteRandom() ;
+		quote.innerHTML =  randomQuote.quote;
+		author.innerHTML =  randomQuote.author;
+}
+
+//time interval for random quotes
+setInterval(function () {
+		display_quotes();
+	},10000);
+
+// function to display time and date
+
+function dateTime () {
+
+    let temp = new Date;
+    let day = weekday(temp.getDay());
+    time.innerHTML = `${temp.getHours()} : ${temp.getMinutes()} : ${temp.getSeconds()}`;
+     date.innerHTML = `${day} : ${temp.getDate()} : ${temp.getMonth()} : ${temp.getFullYear()}`;
+}
+
+//time interval for time
+setInterval(function() { 
+	dateTime();
+}, 1000);
+		
+// function for weekday
+function weekday(temp) {
+
+    switch(temp) {
+        case 0 : return 'Sun';
+        case 1 : return 'Mon';
+        case 2 : return 'Tue';
+        case 3 : return 'Wed';
+        case 4 : return 'Thr';
+        case 5 : return 'Fri';
+        case 6 : return 'Sat';
+    }
+}
+
+
