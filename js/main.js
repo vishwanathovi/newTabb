@@ -7,7 +7,9 @@ function createRandomBackground(){
 	var randomCount = 0;
 	setInterval(()=>{
 		randomCount+=1;
-		document.body.style.background = `url(https://source.unsplash.com/random/${1000+(randomCount%5)}x600)`;
+		// document.body.style.background = `url(https://source.unsplash.com/random/${1000+(randomCount%5)}x600)`;
+		document.body.style.background = `url(../img/image${randomCount%5}.jpeg)`;
+		document.body.style.background = `url(../img/image5.jpeg)`;
 		document.body.style.backgroundSize = 'cover';
 	},6000)
 }
@@ -80,19 +82,18 @@ function displayItemsFunction(arr,exp) {
 	
 
 
-	// for (item of arr){
-	// 	if (item["done"]==true){document.querySelector(`#${item["key"]}`).classList.add("strike-out")}
-	// }
+	for (item of arr){
+		if (item["done"]==true){document.querySelector(`#${item["key"]}`).classList.add("strike-out")}
+	}
 
-	// updateCount();
+	updateCount();
 
-	// hideClearAndColordown();
+	hideClearAndColordown();
 
 	console.table(itemArray)
 }
 
 document.getElementById("item-submit").addEventListener('click',addItemFunction); // Adding item add listener
-
 
 
 function addItemFunction(){
@@ -291,6 +292,12 @@ let quote = document.getElementById('quotes');
 let author = document.getElementById('author');
 let time = document.getElementById('time');
 let date = document.getElementById('date');
+
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+
 display_quotes();
 dateTime();
 
@@ -300,7 +307,7 @@ function display_quotes() {
 
 		let randomQuote = quoteRandom() ;
 		quote.innerHTML =  randomQuote.quote;
-		author.innerHTML =  randomQuote.author;
+		author.innerHTML =  `- ${randomQuote.author}`;
 }
 
 //time interval for random quotes
@@ -311,30 +318,20 @@ setInterval(function () {
 // function to display time and date
 
 function dateTime () {
-
-    let temp = new Date;
-    let day = weekday(temp.getDay());
-    time.innerHTML = `${temp.getHours()} : ${temp.getMinutes()} : ${temp.getSeconds()}`;
-     date.innerHTML = `${day} : ${temp.getDate()} : ${temp.getMonth()} : ${temp.getFullYear()}`;
+    let dateObj = new Date;
+    time.innerHTML = `${correntTimeFormat(dateObj.getHours())}:${correntTimeFormat(dateObj.getMinutes())}:${correntTimeFormat(dateObj.getSeconds())}`;
+    date.innerHTML = ` ${dateObj.getDate()}rd ${monthNames[dateObj.getMonth()]}, ${dateObj.getFullYear()}`;
 }
 
 //time interval for time
 setInterval(function() { 
 	dateTime();
 }, 1000);
-		
-// function for weekday
-function weekday(temp) {
 
-    switch(temp) {
-        case 0 : return 'Sun';
-        case 1 : return 'Mon';
-        case 2 : return 'Tue';
-        case 3 : return 'Wed';
-        case 4 : return 'Thr';
-        case 5 : return 'Fri';
-        case 6 : return 'Sat';
-    }
+
+function correntTimeFormat(i) {
+  i < 10? i ="0" + i: i;
+  return i;	  
 }
 
 
