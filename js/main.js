@@ -22,9 +22,14 @@ createRandomBackground();
 
 var itemArray = JSON.parse(localStorage.getItem("itemArray")) || [];
 
+//move expired items
+changeDate();
+moveExpired();
+
+
 var filterValue = "all"; // Global variable to hold the filter value
 
-displayItemsFunction();
+displayItemsFunction(itemArray,false);
 
 document.querySelector(".item-list").addEventListener('click',allFunctionSelector)
 
@@ -41,9 +46,12 @@ if (e.target.classList.contains("fa-times")){removeItemFunction(e.target)}
 }
 
 
-function displayItemsFunction(){
+function displayItemsFunction(arr,exp) {
 	document.querySelector(".item-list").innerHTML = "";
-	for (item of itemArray){
+	
+	if(exp==false) {
+	for (item of arr){
+		if(item.expired == false){
 		if (filterValue=="all"){document.querySelector(".item-list").insertAdjacentHTML('afterbegin', `<div id="${item.key}" class="item"><div class="circle-check"></div><div  class="item-text">${item.text}</div><i class="fas fa-times"></i></div>` )}
 		if (filterValue=="active"){ 
 				if(item["done"]==false){document.querySelector(".item-list").insertAdjacentHTML('afterbegin', `<div id="${item.key}" class="item"><div class="circle-check"></div><div  class="item-text">${item.text}</div><i class="fas fa-times"></i></div>` )}
@@ -51,11 +59,30 @@ function displayItemsFunction(){
 		if (filterValue=="completed"){ 
 			if(item["done"]==true){document.querySelector(".item-list").insertAdjacentHTML('afterbegin', `<div id="${item.key}" class="item"><div class="circle-check"></div><div  class="item-text">${item.text}</div><i class="fas fa-times"></i></div>` )}
 		}
-}
-
-	for (item of itemArray){
-		if (item["done"]==true){document.querySelector(`#${item["key"]}`).classList.add("strike-out")}
 	}
+}
+	} else{  //expired list
+
+
+		for (item of arr){
+			if(item.expired == true) {
+			if (filterValue=="all"){document.querySelector(".item-list").insertAdjacentHTML('afterbegin', `<div id="${item.key}" class="item"><div class="circle-check"></div><div  class="item-text">${item.text}</div><i class="fas fa-times"></i></div>` )}
+			if (filterValue=="active"){ 
+					if(item["done"]==false){document.querySelector(".item-list").insertAdjacentHTML('afterbegin', `<div id="${item.key}" class="item"><div class="circle-check"></div><div  class="item-text">${item.text}</div><i class="fas fa-times"></i></div>` )}
+			}
+			if (filterValue=="completed"){ 
+				if(item["done"]==true){document.querySelector(".item-list").insertAdjacentHTML('afterbegin', `<div id="${item.key}" class="item"><div class="circle-check"></div><div  class="item-text">${item.text}</div><i class="fas fa-times"></i></div>` )}
+			}
+		}
+	}
+	} //end of else
+
+	
+
+
+	// for (item of arr){
+	// 	if (item["done"]==true){document.querySelector(`#${item["key"]}`).classList.add("strike-out")}
+	// }
 
 	// updateCount();
 
@@ -74,11 +101,14 @@ function addItemFunction(){
 
 	var currentItem = document.getElementById("item-input").value;
 	document.getElementById("item-input").value = "";
-	var timeKey = "key" + getTimeKey()
-	var currentItemObj = { key:timeKey, text:currentItem,done:false }
+	var timeKey = "key" + getTimeKey();
+	var time = new Date;
+	var currentItemObj = { key:timeKey, text:currentItem,done:false,time:+time,expired:false };
+	console.log(currentItemObj);
 	itemArray.push(currentItemObj)
-	displayItemsFunction();
-	localStorage.itemArray = JSON.stringify(itemArray)
+	displayItemsFunction(itemArray,false);
+	localStorage.itemArray = JSON.stringify(itemArray);
+	changeDate();
 }
 
 // Remove items function
@@ -93,7 +123,7 @@ function removeItemFunction(element){
 
 	itemArray = itemArray.filter((item) => item["key"]!=key);
 
-	displayItemsFunction();
+	displayItemsFunction(itemArray,false);
 
 	localStorage.itemArray = JSON.stringify(itemArray)
 
@@ -113,7 +143,7 @@ function checkItemFunction(element){
 		// console.log(item["key"])
 	}
 
-	displayItemsFunction();
+	displayItemsFunction(itemArray,false);
 
 	// currentItem.classList.toggle("strike-out")
 	localStorage.itemArray = JSON.stringify(itemArray)
@@ -139,7 +169,7 @@ function filterUpdate(e){
 	
 	document.querySelector("#"+filterValue+"-btn").classList.toggle("current-btn")
 
-	displayItemsFunction();
+	displayItemsFunction(itemArray,false);
 }
 
 function updateCount(){
@@ -155,7 +185,7 @@ document.querySelector("#clear-completed").addEventListener('click',clearComplet
 function clearCompleted(){
 	itemArray = itemArray.filter(item=>item["done"]==false);
 
-	displayItemsFunction();
+	displayItemsFunction(itemArray,false);
 		localStorage.itemArray = JSON.stringify(itemArray)
 
 }
@@ -184,7 +214,7 @@ function checkAllItems(){
 	}
 
 
-	displayItemsFunction();
+	displayItemsFunction(itemArray,false);
 		localStorage.itemArray = JSON.stringify(itemArray)
 
 }
@@ -209,6 +239,47 @@ function getTimeKey(){
 	var date = new Date;
 	return date.getTime();
 }
+
+
+//////////////////////////////////////////////////////////////////
+//                     EXPIRED FUNCTION                         //
+//////////////////////////////////////////////////////////////////
+
+// expired list button
+const expiredButton = document.getElementById('expired-list');
+
+// event listner
+expiredButton.addEventListener('click', expireFun);
+
+function expireFun() {
+	console.log('atkins');
+	displayItemsFunction(itemArray, true);
+
+}
+
+
+function moveExpired() {
+
+	let tempDate = new Date;
+
+	for(item of itemArray) {
+
+		if (item.time.getDay() < tempDate.getDay())
+		item.expired = true;
+	}
+}
+
+
+function changeDate() {
+
+		for(item of itemArray) {
+			item.time = new Date(item.time);
+			}
+}
+
+
+
+
 
 
 
