@@ -9,7 +9,7 @@ function createRandomBackground(){
 		randomCount+=1;
 		// document.body.style.background = `url(https://source.unsplash.com/random/${1000+(randomCount%5)}x600)`;
 		document.body.style.background = `url(../img/image${randomCount%5}.jpeg)`;
-		document.body.style.background = `url(../img/image5.jpeg)`;
+		document.body.style.background = `url(img/image5.jpeg)`;
 		document.body.style.backgroundSize = 'cover';
 	},6000)
 }
@@ -28,10 +28,12 @@ var itemArray = JSON.parse(localStorage.getItem("itemArray")) || [];
 changeDate();
 moveExpired();
 
+var exp = false;
+
 
 var filterValue = "all"; // Global variable to hold the filter value
 
-displayItemsFunction(itemArray,false);
+displayItemsFunction();
 
 document.querySelector(".item-list").addEventListener('click',allFunctionSelector)
 
@@ -48,11 +50,11 @@ if (e.target.classList.contains("fa-times")){removeItemFunction(e.target)}
 }
 
 
-function displayItemsFunction(arr,exp) {
+function displayItemsFunction() {
 	document.querySelector(".item-list").innerHTML = "";
 	
 	if(exp==false) {
-	for (item of arr){
+	for (item of itemArray){
 		if(item.expired == false){
 		if (filterValue=="all"){document.querySelector(".item-list").insertAdjacentHTML('afterbegin', `<div id="${item.key}" class="item"><div class="circle-check"></div><div  class="item-text">${item.text}</div><i class="fas fa-times"></i></div>` )}
 		if (filterValue=="active"){ 
@@ -65,8 +67,7 @@ function displayItemsFunction(arr,exp) {
 }
 	} else{  //expired list
 
-
-		for (item of arr){
+		for (item of itemArray){
 			if(item.expired == true) {
 			if (filterValue=="all"){document.querySelector(".item-list").insertAdjacentHTML('afterbegin', `<div id="${item.key}" class="item"><div class="circle-check"></div><div  class="item-text">${item.text}</div><i class="fas fa-times"></i></div>` )}
 			if (filterValue=="active"){ 
@@ -79,11 +80,12 @@ function displayItemsFunction(arr,exp) {
 	}
 	} //end of else
 
-	
 
 
-	for (item of arr){
+	for (item of itemArray){
+		if (document.querySelector(`#${item["key"]}`)!=null){
 		if (item["done"]==true){document.querySelector(`#${item["key"]}`).classList.add("strike-out")}
+			}
 	}
 
 	updateCount();
@@ -103,11 +105,11 @@ function addItemFunction(){
 	var currentItem = document.getElementById("item-input").value;
 	document.getElementById("item-input").value = "";
 	var timeKey = "key" + getTimeKey();
-	var time = new Date;
-	var currentItemObj = { key:timeKey, text:currentItem,done:false,time:+time,expired:false };
+	var createdDate = new Date;
+	var currentItemObj = { key:timeKey, text:currentItem,done:false,time:createdDate,expired:false };
 	console.log(currentItemObj);
 	itemArray.push(currentItemObj)
-	displayItemsFunction(itemArray,false);
+	displayItemsFunction();
 	localStorage.itemArray = JSON.stringify(itemArray);
 	changeDate();
 }
@@ -124,7 +126,7 @@ function removeItemFunction(element){
 
 	itemArray = itemArray.filter((item) => item["key"]!=key);
 
-	displayItemsFunction(itemArray,false);
+	displayItemsFunction();
 
 	localStorage.itemArray = JSON.stringify(itemArray)
 
@@ -144,7 +146,7 @@ function checkItemFunction(element){
 		// console.log(item["key"])
 	}
 
-	displayItemsFunction(itemArray,false);
+	displayItemsFunction();
 
 	// currentItem.classList.toggle("strike-out")
 	localStorage.itemArray = JSON.stringify(itemArray)
@@ -170,7 +172,7 @@ function filterUpdate(e){
 	
 	document.querySelector("#"+filterValue+"-btn").classList.toggle("current-btn")
 
-	displayItemsFunction(itemArray,false);
+	displayItemsFunction();
 }
 
 function updateCount(){
@@ -186,7 +188,7 @@ document.querySelector("#clear-completed").addEventListener('click',clearComplet
 function clearCompleted(){
 	itemArray = itemArray.filter(item=>item["done"]==false);
 
-	displayItemsFunction(itemArray,false);
+	displayItemsFunction();
 		localStorage.itemArray = JSON.stringify(itemArray)
 
 }
@@ -215,7 +217,7 @@ function checkAllItems(){
 	}
 
 
-	displayItemsFunction(itemArray,false);
+	displayItemsFunction();
 		localStorage.itemArray = JSON.stringify(itemArray)
 
 }
@@ -249,14 +251,28 @@ function getTimeKey(){
 // expired list button
 const expiredButton = document.getElementById('expired-list');
 
+
 // event listner
 expiredButton.addEventListener('click', expireFun);
 
 function expireFun() {
-	console.log('atkins');
-	displayItemsFunction(itemArray, true);
-
+	exp = true;
+	displayItemsFunction();
 }
+
+const todayButton = document.getElementById('today-list');
+
+// event listner
+todayButton.addEventListener('click', todayFun);
+
+function todayFun() {
+	exp = false;
+	displayItemsFunction();
+	console.log("hello")
+}
+
+
+
 
 
 function moveExpired() {
@@ -265,7 +281,7 @@ function moveExpired() {
 
 	for(item of itemArray) {
 
-		if (item.time.getDay() < tempDate.getDay())
+		if (item.time.getDate() != tempDate.getDate())
 		item.expired = true;
 	}
 }

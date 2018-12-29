@@ -10,4 +10,4 @@
 <!-- Add todo list  -->
 
 1. Modify the formatting to something new
-2. 
+2. Refactor the code according to the inputs received on that day
